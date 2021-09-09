@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>演習林</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  
+.mapboxgl-ctrl-pitchtoggle-3d {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCI+ICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjM1ZW0iIHN0eWxlPSJmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiAnSGVsdmV0aWNhIE5ldWUnLEFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXdlaWdodDogYm9sZDsgdGV4dC1hbmNob3I6IG1pZGRsZTsiPjNEPC90ZXh0Pjwvc3ZnPg==);
+}
+
+.mapboxgl-ctrl-pitchtoggle-2d {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCI+ICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjM1ZW0iIHN0eWxlPSJmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiAnSGVsdmV0aWNhIE5ldWUnLEFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXdlaWdodDogYm9sZDsgdGV4dC1hbmNob3I6IG1pZGRsZTsiPjJEPC90ZXh0Pjwvc3ZnPg==);
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  
+  
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2F0b3NoaTcxOTAiLCJhIjoiY2twN3lkdHQxMDI3czJxb2YzN2w4aW1mMyJ9.f87Vwo-X8sPHt6wUEhGajg';
+  
+  const bounds = [
+  [136.906415, 35.536168],
+  [136.934291, 35.561888]
+  ];
+  
+  
+const map = new mapboxgl.Map({
+container: 'map', // container ID
+style: 'mapbox://styles/satoshi7190/ckp8afob734l317mwf911w2b0', // style URL
+center: [136.923383770263, 35.55095633544576], // starting position [lng, lat]
+zoom: 14.5, // starting zoom
+maxBounds: bounds,
+
+});
+  
+class PitchToggle {
+    constructor({ pitch = 60, minpitchzoom = 0 }) {
+      
+      this._pitch = pitch;
+      this._minpitchzoom = minpitchzoom;
+    }
+  
+    onAdd(map) {
+      this._map = map;
+      let _this = this;
+  
+      this._btn = document.createElement("button");
+      this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+      this._btn.type = "button";
+      this._btn["aria-label"] = "Toggle Pitch";
+      this._btn.onclick = function() {
+        if (map.getPitch() === 0) {
+          let options = { pitch: _this._pitch };
+          if (_this._minpitchzoom && map.getZoom() > _this._minpitchzoom) {
+            options.zoom = _this._minpitchzoom;
+          }
+          map.easeTo(options);
+          _this._btn.className =
+            "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
+        } else {
+          map.easeTo({ pitch: 0 });
+          _this._btn.className =
+            "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+        }
+      };
+  
+      this._container = document.createElement("div");
+      this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+      this._container.appendChild(this._btn);
+  
+      return this._container;
+    }
+  
+    onRemove() {
+      this._container.parentNode.removeChild(this._container);
+      this._map = undefined;
+    }
+  }
+//2d3d
+
+    map.addControl(
+        ({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        })
+    );
+    //アトリビューションの位置
+    map.addControl(new mapboxgl.AttributionControl(), 'top-right');
+    //フルスクリーン
+    map.addControl(new mapboxgl.FullscreenControl());
+    //コンパス
+    map.addControl(new mapboxgl.NavigationControl());
+    //2d3d
+    map.addControl(new PitchToggle({ minpitchzoom: 0, }),);
+    // 現在地
+    map.addControl(
+        new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true,
+            showUserHeading: true
+
+
+        })
+    );
+  
+  //スケール
+  map.addControl(new mapboxgl.ScaleControl({
+    maxWidth: 200,
+    unit: 'metric'
+    }));
+</script>
+ 
+</body>
+</html>
