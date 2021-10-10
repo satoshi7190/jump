@@ -30,7 +30,7 @@ label {
     margin-left: auto;
     margin-right: auto;
     bottom: auto;
-    top: 2rem;
+    top: 3.5rem;
   }
 }
 .controls__item {
@@ -68,7 +68,7 @@ label {
   left: 1.5rem;
   right: 1.5rem;
   bottom: 5.5rem;
-  top: 60%;
+  top: 50%;
   height: auto;
   overflow: hidden;
   opacity: 0;
@@ -84,8 +84,8 @@ label {
   .dropdown__contents {
     left: calc(50% - 16rem);
     right: calc(50% - 16rem);
-    top: 5.5rem;
-    bottom: 60%;
+    top: 7rem;
+    bottom: 50%;
     transform: translate3d(0, -1.5rem, 0) scaleY(0.75);
     transform-origin: 0 0;
   }
@@ -239,16 +239,6 @@ body {
   color: #ffffff;
 }
 
-.geocoder {
-  position: absolute;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  z-index: 1;
-  width: 95%;
-
-  top: 10px;
-}
 .mapboxgl-ctrl-geocoder {
   min-width: 100%;
 }
@@ -346,4 +336,16 @@ body {
   position: relative;
   margin: 0;
   cursor: ew-resize;
+}
+
+.geocoder {
+  position: absolute;
+  z-index: 2;
+  width: 50%;
+  height: 20px;
+  left: 10px;
+  top: 10px;
+}
+.mapboxgl-ctrl-geocoder {
+  min-width: 100%;
 }
