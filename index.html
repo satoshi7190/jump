@@ -1,123 +1,121 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<title>演習林2021/04/01</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
-<style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-  
-.mapboxgl-ctrl-pitchtoggle-3d {
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCI+ICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjM1ZW0iIHN0eWxlPSJmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiAnSGVsdmV0aWNhIE5ldWUnLEFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXdlaWdodDogYm9sZDsgdGV4dC1hbmNob3I6IG1pZGRsZTsiPjNEPC90ZXh0Pjwvc3ZnPg==);
-}
-
-.mapboxgl-ctrl-pitchtoggle-2d {
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCI+ICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjM1ZW0iIHN0eWxlPSJmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiAnSGVsdmV0aWNhIE5ldWUnLEFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXdlaWdodDogYm9sZDsgdGV4dC1hbmNob3I6IG1pZGRsZTsiPjJEPC90ZXh0Pjwvc3ZnPg==);
-}
-</style>
-</head>
-<body>
-<div id="map"></div>
-<script>
-  
-  
-	mapboxgl.accessToken = 'pk.eyJ1Ijoic2F0b3NoaTcxOTAiLCJhIjoiY2twN3lkdHQxMDI3czJxb2YzN2w4aW1mMyJ9.f87Vwo-X8sPHt6wUEhGajg';
-  
-  const bounds = [
-  [136.906415, 35.536168],
-  [136.934291, 35.561888]
-  ];
-  
-  
-const map = new mapboxgl.Map({
-container: 'map', // container ID
-style: 'mapbox://styles/satoshi7190/ckp8afob734l317mwf911w2b0', // style URL
-center: [136.923383770263, 35.55095633544576], // starting position [lng, lat]
-zoom: 14.5, // starting zoom
-maxBounds: bounds,
-
-});
-  
-class PitchToggle {
-    constructor({ pitch = 60, minpitchzoom = 0 }) {
-      
-      this._pitch = pitch;
-      this._minpitchzoom = minpitchzoom;
-    }
-  
-    onAdd(map) {
-      this._map = map;
-      let _this = this;
-  
-      this._btn = document.createElement("button");
-      this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
-      this._btn.type = "button";
-      this._btn["aria-label"] = "Toggle Pitch";
-      this._btn.onclick = function() {
-        if (map.getPitch() === 0) {
-          let options = { pitch: _this._pitch };
-          if (_this._minpitchzoom && map.getZoom() > _this._minpitchzoom) {
-            options.zoom = _this._minpitchzoom;
-          }
-          map.easeTo(options);
-          _this._btn.className =
-            "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
-        } else {
-          map.easeTo({ pitch: 0 });
-          _this._btn.className =
-            "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
-        }
-      };
-  
-      this._container = document.createElement("div");
-      this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
-      this._container.appendChild(this._btn);
-  
-      return this._container;
-    }
-  
-    onRemove() {
-      this._container.parentNode.removeChild(this._container);
-      this._map = undefined;
-    }
-  }
-//2d3d
-
-    map.addControl(
-        ({
-            accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl
-        })
-    );
+    <meta charset="utf-8" />
+    <title>演習林GIS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="main.css">
     
-    //フルスクリーン
-    map.addControl(new mapboxgl.FullscreenControl());
-    //コンパス
-    map.addControl(new mapboxgl.NavigationControl());
-    //2d3d
-    map.addControl(new PitchToggle({ minpitchzoom: 0, }),);
-    // 現在地
-    map.addControl(
-        new mapboxgl.GeolocateControl({
-            positionOptions: {
-                enableHighAccuracy: true
-            },
-            trackUserLocation: true,
-            showUserHeading: true
+</head>
 
+<body>
+  <div id="splash">
+    <div id="splash_logo"><div class="fadeUp"><h1>演習林GIS</h1></div>
+      <img src="https://www.forest.ac.jp/wp-content/themes/static/images/common/logo.png" alt="" class="fadeUp">
+    </div>
+  </div>
 
-        })
-    );
-  
-  //スケール
-  map.addControl(new mapboxgl.ScaleControl({
-    maxWidth: 200,
-    unit: 'metric'
-    }));
-</script>
- 
+  <!-- ==============JQuery読み込み=============== -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/4-1-4/js/4-1-4.js"></script>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+
+    <div class="controls">
+        <div class="controls__item">
+          <input type="radio" name="dropdown-radios" id="dropdown-radio-clear" class="u-hidden" />
+          <div class="dropdown">
+            <input type="radio" name="dropdown-radios" id="dropdown-radio-search" class="dropdown__radio u-hidden" />
+            <label class="dropdown__label-open" for="dropdown-radio-search">ベースマップ</label>
+            <label class="dropdown__label-close" for="dropdown-radio-clear">ベースマップ</label>
+            <div class="dropdown__contents">
+              <div class="dropdown__contents-inner">
+
+                <nav id="menu2"></nav>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="controls__item">
+          <div class="dropdown">
+            <input type="radio" name="dropdown-radios" id="dropdown-radio-crop" class="dropdown__radio u-hidden" />
+            <label class="dropdown__label-open" for="dropdown-radio-crop">レイヤー</label>
+            <label class="dropdown__label-close" for="dropdown-radio-clear">レイヤー</label>
+            <div class="dropdown__contents">
+              <div class="dropdown__contents-inner">
+                <nav id="menu"></nav>
+                  
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="controls__item">
+          <div class="dropdown">
+            <input type="radio" name="dropdown-radios" id="dropdown-radio-layers" class="dropdown__radio u-hidden" />
+            <label class="dropdown__label-open" for="dropdown-radio-layers">場所検索</label>
+            <label class="dropdown__label-close" for="dropdown-radio-clear">場所検索</label>
+            <div class="dropdown__contents">
+              <div class="dropdown__contents-inner">
+                <div id="geocoder" class="geocoder"></div>
+                  
+      
+                  
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="controls__item">
+          <div class="dropdown">
+            <input type="radio" name="dropdown-radios" id="dropdown-radio-zoom" class="dropdown__radio u-hidden" />
+            <label class="dropdown__label-open" for="dropdown-radio-zoom">ツール</label>
+            <label class="dropdown__label-close" for="dropdown-radio-clear">ツール</label>
+            <div class="dropdown__contents">
+              <div class="dropdown__contents-inner">
+                
+                <div class="map-overlay top">
+                  <div class="map-overlay-inner">
+                      演習林-林班 
+                      <input id="slider" type="range" min="0" max="100" step="0" value="100">
+                  
+                  </div>
+              </div>
+
+                  
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="controls__item">
+          <div class="dropdown">
+            <input type="radio" name="dropdown-radios" id="dropdown-radio-basemaps" class="dropdown__radio u-hidden" />
+            <label class="dropdown__label-open" for="dropdown-radio-basemaps">その他</label>
+            <label class="dropdown__label-close" for="dropdown-radio-clear">その他</label>
+            <div class="dropdown__contents">
+              <div class="dropdown__contents-inner">
+                
+                <li class="ui-list__item"><a>準備中です</a></li>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+
+      <div id="map"></div>
+   
+</div>
+</body>
+<script type="text/javascript" src="main.js"></script>
 </body>
 </html>
