@@ -1310,11 +1310,7 @@ class PitchToggle {
         })
     );
   
-  //スケール
-  map.addControl(new mapboxgl.ScaleControl({
-    maxWidth: 200,
-    unit: 'metric'
-    }), 'top-left');
+
 
 //ローカル検索
     const customData = {
@@ -1629,15 +1625,21 @@ class PitchToggle {
     }
 
 // Add the control to the map.
+
 const geocoder = new MapboxGeocoder({
-accessToken: mapboxgl.accessToken,
-  
+  accessToken: mapboxgl.accessToken,
   localGeocoder: forwardGeocoder,
-            zoom: 17,
-            placeholder: '検索',
-mapboxgl: mapboxgl
+  zoom: 17,
+  placeholder: '場所検索',
+  mapboxgl: mapboxgl
 });
- 
+
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-geocoder.setBbox(map.getBounds().toArray().flat());
+
+
+// //スケール
+// map.addControl(new mapboxgl.ScaleControl({
+//   maxWidth: 200,
+//   unit: 'metric'
+//   }), 'top-left');
 
