@@ -7,13 +7,14 @@
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet" />
+    
     <link rel="stylesheet" type="text/css" href="main.css">
     
 </head>
 
 <body>
   <div id="splash">
-    <div id="splash_logo"><div class="fadeUp"><h1>演習林GIS</h1></div>
+    <div id="splash_logo"><div class="fadeUp"><h1>演習林GIS β版</h1></div>
       <img src="https://www.forest.ac.jp/wp-content/themes/static/images/common/logo.png" alt="" class="fadeUp">
     </div>
   </div>
@@ -50,8 +51,21 @@
             <div class="dropdown__contents">
               <div class="dropdown__contents-inner">
                 <nav id="menu"></nav>
-                  
-                
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="controls__item">
+          <div class="dropdown">
+            <input type="radio" name="dropdown-radios" id="dropdown-radio-crop2" class="dropdown__radio u-hidden" />
+            <label class="dropdown__label-open" for="dropdown-radio-crop2">情報</label>
+            <label class="dropdown__label-close" for="dropdown-radio-clear">情報</label>
+            <div class="dropdown__contents">
+              <div class="dropdown__contents-inner">
+
+                <pre id="coordinates2" class="coordinates2"></pre>
+ 
               </div>
             </div>
           </div>
@@ -65,35 +79,36 @@
               <div class="dropdown__contents-inner">
                 
                   
-                <div class="map-overlay top">
-                  <div class="map-overlay-inner">
-                      演習林-林班 
+                <div class="map-overlay1 top">
+                  <div class="map-overlay-inner1">
+                      演習林-林班の透明度 
                       <input id="slider" type="range" min="0" max="100" step="0" value="100">
-                  
                   </div>
-              </div>
+                  <div class="map-overlay2 top">
+                    <div class="map-overlay-inner2">
+                        <fieldset>
+                            ラインの選択
+                            <select id="layer" name="layer">
+                                <option value="歩道">歩道</option>
+                                <option value="川">川</option>
+                                <option value="演習林-全体境界">演習林-全体境界</option>
+                                <option value="未来の森づくり">未来の森づくり</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            色の変更
+                            <div id="swatches"></div>
+                        </fieldset>
+                    </div>
+                </div>
+                </div>
                   
                 
               </div>
             </div>
           </div>
         </div>
-        <div class="controls__item">
-          <div class="dropdown">
-            <input type="radio" name="dropdown-radios" id="dropdown-radio-zoom" class="dropdown__radio u-hidden" />
-            <label class="dropdown__label-open" for="dropdown-radio-zoom">ツール2</label>
-            <label class="dropdown__label-close" for="dropdown-radio-clear">ツール2</label>
-            <div class="dropdown__contents">
-              <div class="dropdown__contents-inner">
-                
-                
-                <li class="ui-list__item"><a>準備中です</a></li>
-                  
-                
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <div class="controls__item">
           <div class="dropdown">
             <input type="radio" name="dropdown-radios" id="dropdown-radio-basemaps" class="dropdown__radio u-hidden" />
@@ -101,6 +116,7 @@
             <label class="dropdown__label-close" for="dropdown-radio-clear">その他</label>
             <div class="dropdown__contents">
               <div class="dropdown__contents-inner">
+                <a href="https://icons8.com/icon/53307/marker-off">Marker off icon by Icons8</a>
                 
                 <li class="ui-list__item"><a>準備中です</a></li>
                   
@@ -111,6 +127,8 @@
       </div>
       <div id="map"></div>
       <div id="geocoder" class="geocoder"></div>
+      
+      
 </div>
 </body>
 <script type="text/javascript" src="main.js"></script>
