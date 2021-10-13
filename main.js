@@ -10,19 +10,22 @@ $(window).on('load',function(){
   [136.83258933284668, 35.49557519024344],
   [137.0030202272223, 35.59164888935217]
   ];
+var i = 0;
 
 const map = new mapboxgl.Map({
         container: 'map', // container ID
-        style: 'mapbox://styles/mapbox/satellite-v9',
+        style: 'mapbox://styles/satoshi7190/ckunakzijjuz117qijm85ymd8',
         center: [136.92339108110815, 35.55095829855529], // starting position
         zoom: 14.5, // starting zoom
-  maxBounds: bounds,
+        maxBounds: bounds,
+        attributionControl: false,
+        bearing: i,
     });
 
     // マップの読み込みが完了するまで待ちます。
     map.on('load', () => {
 
-//スライダー
+//透明度スライダー
       slider.addEventListener('input', (e) => {
         // Adjust the layers opacity. layer here is arbitrary - this could
         // be another layer name found in your style or a custom layer
@@ -36,7 +39,35 @@ const map = new mapboxgl.Map({
         // Value indicator
         sliderValue.textContent = e.target.value + '%';
     });
-//スライダー
+
+//色変更ツール
+const swatches = document.getElementById('swatches');
+    const layer = document.getElementById('layer');
+    const colors = [
+        '#000000',
+        '#808080',
+        '#ffffcc',
+        '#a1dab4',
+        '#41b6c4',
+        '#2c7fb8',
+        '#253494',
+        '#fed976',
+        '#feb24c',
+        '#fd8d3c',
+        '#f03b20',
+        '#bd0026'
+
+    ];
+
+    for (const color of colors) {
+        const swatch = document.createElement('button');
+        swatch.style.backgroundColor = color;
+        swatch.addEventListener('click', () => {
+            map.setPaintProperty(layer.value, 'line-color', color);
+        });
+        swatches.appendChild(swatch);
+    }
+
       
       // マップの読み込みが完了するまで待ちます。
       map.addSource('mapbox-dem', {
@@ -56,7 +87,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
       map.addSource("saisinsyasin", {
         type: "raster",
         tiles: ["https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
     });
     map.addLayer({
         id: "saisinsyasin",
@@ -70,7 +102,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
         map.addSource("kutyu", {
           type: "raster",
           tiles: ["https://cyberjapandata.gsi.go.jp/xyz/gazo2/{z}/{x}/{y}.jpg"],
-          tileSize: 256
+          tileSize: 256,
+          attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
       });
       map.addLayer({
           id: "kutyu",
@@ -84,7 +117,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
          map.addSource("hyouzyun", {
         type: "raster",
         tiles: ["https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
     });
     map.addLayer({
         id: "hyouzyun",
@@ -98,7 +132,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
     map.addSource("ensyoku", {
         type: "raster",
         tiles: ["https://cyberjapandata.gsi.go.jp/xyz/relief/{z}/{x}/{y}.png"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
     });
     map.addLayer({
         id: "ensyoku",
@@ -112,7 +147,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
        map.addSource("ineikizyou", {
         type: "raster",
         tiles: ["https://cyberjapandata.gsi.go.jp/xyz/hillshademap/{z}/{x}/{y}.png"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
     });
     map.addLayer({
         id: "ineikizyou",
@@ -126,7 +162,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
     map.addSource("keisyasirokuro", {
         type: "raster",
         tiles: ["https://cyberjapandata.gsi.go.jp/xyz/slopemap/{z}/{x}/{y}.png"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
     });
     map.addLayer({
         id: "keisyasirokuro",
@@ -140,7 +177,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
     map.addSource("keiyakubun", {
       type: "raster",
       tiles: ["https://api.mapbox.com/styles/v1/satoshi7190/ckukj6anah93i18oeywuegg9f/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2F0b3NoaTcxOTAiLCJhIjoiY2twN3lkdHQxMDI3czJxb2YzN2w4aW1mMyJ9.f87Vwo-X8sPHt6wUEhGajg"],
-      tileSize: 256
+      tileSize: 256,
+      attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
   });
   map.addLayer({
       id: "keiyakubun",
@@ -149,27 +187,13 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
       minzoom: 0,
       maxzoom: 22
   });
-
-      // 傾斜量図なだれ
-      map.addSource("keisyanadare", {
-        type: "raster",
-        tiles: ["https://cyberjapandata.gsi.go.jp/xyz/slopezone1map/{z}/{x}/{y}.png"],
-        tileSize: 256
-    });
-    map.addLayer({
-        id: "keisyanadare",
-        type: "raster",
-        source: "keisyanadare",
-        minzoom: 0,
-        maxzoom: 22
-    });
-    
-      
+ 
       // 植生図
     map.addSource("syokusei", {
         type: "raster",
         tiles: ["https://map.ecoris.info/tiles/vege67hill/{z}/{x}/{y}.png"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：<a href='https://map.ecoris.info/#contents' target='_blank'>エコリス地図タイル</a>"
     });
     map.addLayer({
         id: "syokusei",
@@ -197,7 +221,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
     map.addSource("katudansou", {
         type: "raster",
         tiles: ["https://cyberjapandata.gsi.go.jp/xyz/afm/{z}/{x}/{y}.png"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
     });
     map.addLayer({
         id: "katudansou",
@@ -211,7 +236,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
     map.addSource("csrittai", {
         type: "raster",
         tiles: [ "https://api.mapbox.com/styles/v1/satoshi7190/ckuginqj5dcbw18oen843uchz/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2F0b3NoaTcxOTAiLCJhIjoiY2twN3lkdHQxMDI3czJxb2YzN2w4aW1mMyJ9.f87Vwo-X8sPHt6wUEhGajg"],
-        tileSize: 256
+        tileSize: 256,
+        attribution: "出典：岐阜県森林研究所<a href='https://www.geospatial.jp/ckan/dataset/gifu-cs-2020-geotiff' target='_blank'>国土地理院</a>"
     });
     map.addLayer({
         id: "csrittai",
@@ -225,7 +251,8 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
     map.addSource("sekisyoku", {
       type: "raster",
       tiles: [ "https://cyberjapandata.gsi.go.jp/xyz/sekishoku/{z}/{x}/{y}.png"],
-      tileSize: 256
+      tileSize: 256,
+      attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
   });
   map.addLayer({
       id: "sekisyoku",
@@ -239,14 +266,15 @@ map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
   map.addSource("google", {
     type: "raster",
     tiles: [ "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"],
-    tileSize: 256
+    tileSize: 256,
+    attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>GoogleMap</a>"
 });
 map.addLayer({
     id: "google",
     type: "raster",
     source: "google",
     minzoom: 0,
-    maxzoom: 22
+    maxzoom: 22,
 });
 
 //OpenStreetMap
@@ -263,20 +291,6 @@ map.addLayer({
   maxzoom: 22
 });
 
-    //磁気
-    map.addSource("ziki", {
-      type: "raster",
-      tiles: [ "https://cyberjapandata.gsi.go.jp/xyz/jikizu2015_chijiki_d/{z}/{x}/{y}.png"],
-      tileSize: 256
-  });
-  map.addLayer({
-      id: "ziki",
-      type: "raster",
-      source: "ziki",
-      minzoom: 0,
-      maxzoom: 22
-  });
-  
     //アカデミー施設図面(β)
     map.addSource("zumen", {
       type: "raster",
@@ -293,7 +307,6 @@ map.addLayer({
 
     // レイヤ設定
     var Map_BaseLayer = {
-        m_mono: "衛星写真",
         saisinsyasin: "全国最新写真(シームレス)",
         kutyu: "空中写真(1979年頃)",
         hyouzyun: "国土地理院地図",
@@ -301,7 +314,6 @@ map.addLayer({
         ineikizyou: "陰影起伏図",
         keisyasirokuro: "傾斜量図(白黒)",
         keiyakubun: "傾斜区分図(カラー)",
-        keisyanadare: "全国傾斜量区分図(雪崩関連)",
         syokusei: "植生図",
         tisitu: "地質図",
         katudansou: "活断層図",
@@ -309,7 +321,6 @@ map.addLayer({
         sekisyoku: "赤色立体図(10mメッシュ)",
         google: "グーグルマップ",
         osm: "オープンストリートマップ",
-        ziki: "磁気図(偏角)/偏角一覧図",
         zumen: "アカデミー施設図面(ベータ版)"
     };
 
@@ -326,7 +337,7 @@ map.addLayer({
         link.textContent = Map_BaseLayer[id];
 
         // 初期表示m_mono以外非表示
-        if (id === "m_mono") {
+        if (id === "saisinsyasin") {
             link.className = "active";
         } else {
             map.setLayoutProperty(id, "visibility", "none");
@@ -370,49 +381,98 @@ map.addLayer({
         layers.appendChild(link);
     }
         //データ読み込み
+        //演習林仮data
       map.addSource('ensyurin', {
             type: 'vector',
             url: 'mapbox://satoshi7190.ckr8wsgl907jy23nxsh2iuwyb-1nqkg'
         });
  
+        //アカデミー校内データ(仮)orizinarugeojson
       map.addSource('kounai', {
             type: 'vector',
             url: 'mapbox://satoshi7190.ckrerno6n6cm820o1n5we29uw-7qhzu'
         });
       
+        //国有林
         map.addSource('kokuyurin', {
             type: 'vector',
             url: 'mapbox://satoshi7190.cku9slodv0wgc27rs708mp6b1-8me7t'
         });
- 
+
+        //林班合体
+        map.addSource('ensyurin-rinpangattai', {
+          type: 'vector',
+          url: 'mapbox://satoshi7190.ckunboyhs78z520oe1hfglgj5-113ce'
+      });
+
+      //林班範囲
        map.addSource('ensyurinhani', {
             type: 'vector',
             url: 'mapbox://satoshi7190.cku9v9gln078620p3nm2lfq97-2bjuv'
         });
       
+        //試験地
       map.addSource('ensyurinsikenti', {
             type: 'vector',
             url: 'mapbox://satoshi7190.ckukunmh91thv28nup0rfmyrq-4dsu3'
         });
 
+        //危険木
+        map.addSource('kikenboku', {
+          type: 'vector',
+          url: 'mapbox://satoshi7190.ckup1h8z101sf20mjml3wn8jd-8jwaz'
+          });
+
+          //イエローゾーン
         map.addSource('dosyakeikaiY', {
           type: 'vector',
           url: 'mapbox://satoshi7190.ckukv2m3i0sjg23mm847auwif-75gyi'
       });
 
+    //レッドゾーン
       map.addSource('dosyakeikaiR', {
         type: 'vector',
         url: 'mapbox://satoshi7190.ckukvgg451pby2bphqgrjs87b-9e8np'
     });
 
+    //マピラリ
     map.addSource('mapillary', {
       type: 'vector',
       tiles: ['https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}?access_token=MLY|6234781469926596|410eca8443ab630243fba3aa6fb87b88'],
       minzoom: 6,
       maxzoom: 14
   });
-      
+
+       // 傾斜量図なだれ
+       map.addSource("keisyanadare", {
+        type: "raster",
+        tiles: ["https://cyberjapandata.gsi.go.jp/xyz/slopezone1map/{z}/{x}/{y}.png"],
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
+    });
+
+       //磁気
+       map.addSource("ziki", {
+        type: "raster",
+        tiles: [ "https://cyberjapandata.gsi.go.jp/xyz/jikizu2015_chijiki_d/{z}/{x}/{y}.png"],
+        tileSize: 256,
+        attribution: "出典：<a href='https://www.maps.google.co.jp' target='_blank'>国土地理院</a>"
+    });
+
 //レイヤー読み込み
+
+map.addLayer({
+  'id': "全国傾斜量区分図(雪崩関連)",
+  'type': "raster",
+  'source': "keisyanadare",
+  "source-layer": "keisyanadare",
+  'minzoom': 0,
+  'maxzoom': 22,
+  'layout': {
+    'visibility': 'none'
+    },
+});
+
       map.addLayer({
             'id': '校内建物ラベル',
             'source': 'kounai',
@@ -558,21 +618,19 @@ map.addLayer({
         map.addLayer({
          "id": '演習林-林班',
             "type": 'fill',
-            "source": "ensyurin",
-            "source-layer": "ensyurin",
-            "filter": [
-                "match",
-                ["get", "樹種"],
-                ["スギ", "ヒノキ", "草地", "広葉樹", "スラッシュマ", "その他岩石", "アカマツ"],
-                true,
-                false
-            ],
+            "source": "ensyurin-rinpangattai",
+            "source-layer": "ensyurin-rinpangattai",
             "layout": {
               'visibility': 'visible'
               
             },
             "paint": {
-                "fill-opacity": 0.4,
+                'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    1,
+                    0.5
+                ],
                 "fill-color": [
                     "match",
                     ["get", "樹種"],
@@ -668,18 +726,7 @@ map.addLayer({
             "paint": {"text-halo-color": "#ffffff", "text-halo-width": 1}
           });
       
-       map.addLayer({
-          'id': '未来の森づくり',
-          'type': 'line',
-          'source': 'ensyurinhani',
-          'source-layer': 'ensyurinhani',
-          "filter": ["match", ["get", "Name"], ["未来の森づくり施業区域"], true, false],
-          'layout': {
-          'visibility': 'visible'
-          },
-          "paint": {"line-width": 4, "line-color": "#a3a815"}
-        
-          });
+    
       
           map.addLayer({
             "id": '土砂災害警戒区域イエローゾーン',
@@ -872,9 +919,22 @@ map.addLayer({
           "paint": {
                 "line-color": "#e42525",
                 "line-opacity": 0.75,
-                "line-width": 4
+                "line-width": 5
             }
           });
+
+          map.addLayer({
+            'id': '未来の森づくり',
+            'type': 'line',
+            'source': 'ensyurinhani',
+            'source-layer': 'ensyurinhani',
+            "filter": ["match", ["get", "Name"], ["未来の森づくり施業区域"], true, false],
+            'layout': {
+            'visibility': 'visible'
+            },
+            "paint": {"line-width": 4, "line-color": "#a3a815"}
+          
+            });
 
           map.addLayer({
             'id': 'mapillary-sequences',
@@ -906,7 +966,7 @@ map.addLayer({
           });
       
       map.addLayer({
-         "id": 'その地地点',
+         "id": 'その他地点',
             "type": 'circle',
             "source": "ensyurin",
             "source-layer": "ensyurin",
@@ -1086,6 +1146,47 @@ map.addLayer({
                     1000
                 ]}
           });
+
+          map.addLayer({
+            'id': "アカデミー危険木調査結果(平成25年)",
+            'type': "symbol",
+            'source': "kikenboku",
+            "source-layer": "kikenboku",
+            'layout': {
+              'visibility': 'none',
+              "text-allow-overlap": false,
+              "text-optional": true,
+              "symbol-avoid-edges": true,
+              "text-ignore-placement": true,
+              "text-size": 12,
+              "text-radial-offset": 1,
+              "icon-image": "caution",
+              "text-justify": "left",
+              "text-anchor": "bottom-left",
+              "text-field": [
+                "to-string",
+                ["concat", ["get", "樹種"], "\n", ["get", "状態"]]
+              ]
+            },
+        
+            'paint': {
+              "text-halo-color": "hsl(0, 0%, 100%)",
+              "text-halo-width": 1,
+              "text-color": "hsl(0, 91%, 20%)"
+            }
+          });
+
+          map.addLayer({
+            'id': "磁気図(偏角)/偏角一覧図",
+            'type': "raster",
+            'source': "ziki",
+            "source-layer": "ziki",
+            'minzoom': 0,
+            'maxzoom': 22,
+            'layout': {
+              'visibility': 'none'
+              },
+        });
       
     });
 
@@ -1097,7 +1198,7 @@ map.addLayer({
         }
 
         //レイヤーのIDを列挙します。
-        const toggleableLayerIds = ['演習林-林班', '演習林-林班境界', '演習林-ラベル', '演習林-全体境界', '未来の森づくり', '歩道','川', '自力建設', '自力建設ラベル', 'サインポール', 'サインポールラベル', 'その地地点', 'その他ラベル','校内建物ラベル'];
+        const toggleableLayerIds = ['演習林-林班', '演習林-林班境界', '演習林-ラベル', '演習林-全体境界', '未来の森づくり', '歩道','川', '自力建設', '自力建設ラベル', 'サインポール', 'サインポールラベル', 'その他地点', 'その他ラベル','校内建物ラベル'];
 
 
 
@@ -1158,7 +1259,7 @@ clickedLayer,
             layers.appendChild(link);
         }
 
-        const toggleableLayerIds2 = ['演習林-試験地', '演習林-試験地ラベル', '国有林-林班', '国有林-林班境界', '国有林-ラベル', '土砂災害警戒区域イエローゾーン', '土砂災害警戒区域イエローゾーンラベル', '土砂災害警戒区域レッドゾーン', '土砂災害警戒区域レッドゾーンラベル', '電線', 'mapillary-sequences', 'mapillary-images'];
+        const toggleableLayerIds2 = ['演習林-試験地', '演習林-試験地ラベル', 'アカデミー危険木調査結果(平成25年)', '国有林-林班', '国有林-林班境界', '国有林-ラベル', '土砂災害警戒区域イエローゾーン', '土砂災害警戒区域イエローゾーンラベル', '土砂災害警戒区域レッドゾーン', '土砂災害警戒区域レッドゾーンラベル', '電線', '全国傾斜量区分図(雪崩関連)', '磁気図(偏角)/偏角一覧図', 'mapillary-sequences', 'mapillary-images'];
 
 
         //各レイヤーに対応するトグルボタンを設定します。
@@ -1215,29 +1316,136 @@ clickedLayer,
            const layers = document.getElementById('menu');
            layers.appendChild(link);
        }
-      
+  
 //       ポップアップ表示
-      map.on('click', '演習林-林班', (e) => {
-        
-new mapboxgl.Popup()
-.setLngLat(e.lngLat)
-.setHTML(e.features[0].properties.面積)
-.addTo(map);
-});
- 
-// Change the cursor to a pointer when
-// the mouse is over the states layer.
-map.on('mouseenter', '演習林-林班', () => {
-map.getCanvas().style.cursor = 'pointer';
-});
- 
-// Change the cursor back to a pointer
-// when it leaves the states layer.
-map.on('mouseleave', '演習林-林班', () => {
-map.getCanvas().style.cursor = '';
-});
-     
+//状態レイヤーの機能でクリックイベントが発生すると、
+        //クリックした場所に説明付きのポップアップを開きます
+        //クリックイベントのプロパティからのHTML。
     }); 
+    
+    map.on('click', '演習林-林班', (e) => {
+      var coordinates = e.lngLat;
+      new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML("<div class='popopbox'><div class='clskunx8e8u'><div class='tbl'><table><tr><td>林班</td><td>" + e.features[0].properties.林班 + "<br /></td></tr><tr><td>小班<br /></td><td>" + e.features[0].properties.小班 + "<br /></td></tr><tr><td>枝番<br /></td><td>" + e.features[0].properties.枝番 + "<br /></td></tr><tr><td>面積<br /></td><td>" + e.features[0].properties.面積 + "<br /></td></tr><tr><td>樹種<br /></td><td>" + e.features[0].properties.樹種 + "<br /></td></tr><tr><td>通称<br /></td><td>" + e.features[0].properties.通称 + "<br /></td></tr><tr><td>小林班ID<br /></td><td>" + e.features[0].properties.小林班ID + "<br /></td></tr><tr><td>林齢<br /></td><td>" + e.features[0].properties.林齢 + "<br /></td></tr></table></div></div></div>")
+      .addTo(map);
+      map.flyTo({
+        center: coordinates
+        });
+      });
+      
+      
+              //マウスは演習林-林班の上にあります。
+      map.on('mouseenter', '演習林-林班', (e) => {
+         //カーソルをポインタに変更する
+      // map.getCanvas().style.cursor = 'pointer';
+
+      if (e.features.length > 0) {
+        if (hoveredStateId !== null) {
+            map.setFeatureState(
+                { source: 'ensyurin-rinpangattai', id: hoveredStateId },
+                { hover: false }
+            );
+        }
+        hoveredStateId = e.features[0].id;
+        map.setFeatureState(
+            { source: 'ensyurin-rinpangattai', id: hoveredStateId },
+            { hover: true }
+        );
+    }
+
+      });
+       
+      
+              //状態レイヤーを離れるとき。
+      map.on('mouseleave', '演習林-林班', () => {
+        //カーソルをポインタに戻します
+      // map.getCanvas().style.cursor = '';
+
+      if (hoveredStateId !== null) {
+        map.setFeatureState(
+            { source: 'ensyurin-rinpangattai', id: hoveredStateId },
+            { hover: false }
+        );
+    }
+    hoveredStateId = null;
+      });
+
+
+    map.on('click', '国有林-林班', (e) => {
+      var coordinates = e.lngLat;
+      new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(e.features[0].properties.国有林_樹種１)
+      .addTo(map);
+      map.flyTo({
+        center: coordinates
+        });
+      });
+      
+      //カーソルをポインタに変更する
+              //マウスは演習林-林班の上にあります。
+      map.on('mouseenter', '国有林-林班', () => {
+      map.getCanvas().style.cursor = 'pointer';
+      });
+       
+      //カーソルをポインタに戻します
+              //状態レイヤーを離れるとき。
+      map.on('mouseleave', '国有林-林班', () => {
+      map.getCanvas().style.cursor = '';
+      });
+      
+
+      map.on('click', 'サインポール', (e) => {
+        var coordinates = e.lngLat;
+        new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.Name)
+        .addTo(map);
+        map.flyTo({
+          center: coordinates
+          });
+        });
+        
+        //カーソルをポインタに変更する
+                //マウスは演習林-林班の上にあります。
+        map.on('mouseenter', 'サインポール', () => {
+        map.getCanvas().style.cursor = 'pointer';
+        });
+         
+        //カーソルをポインタに戻します
+                //状態レイヤーを離れるとき。
+        map.on('mouseleave', 'サインポール', () => {
+        map.getCanvas().style.cursor = '';
+        });
+
+        map.on('click', 'その他地点', (e) => {
+          var coordinates = e.lngLat;
+          new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(e.features[0].properties.test)
+          .addTo(map);
+          map.flyTo({
+            center: coordinates
+            });
+          });
+          
+          //カーソルをポインタに変更する
+                  //マウスは演習林-林班の上にあります。
+          map.on('mouseenter', 'その他地点', () => {
+          map.getCanvas().style.cursor = 'pointer';
+          });
+           
+          //カーソルをポインタに戻します
+                  //状態レイヤーを離れるとき。
+          map.on('mouseleave', 'その他地点', () => {
+          map.getCanvas().style.cursor = '';
+          });
+             
+//コントロール
+
+//ダブルクリックズーム無効
+map.doubleClickZoom.disable();
 
 //3d2d
 class PitchToggle {
@@ -1292,12 +1500,100 @@ class PitchToggle {
         })
     );
 
+    //スケール
+map.addControl(new mapboxgl.ScaleControl({
+  maxWidth: 200,
+  unit: 'metric'
+  }), 'bottom-right');
+    //地図情報
+    map.addControl(new mapboxgl.AttributionControl(), 'top-right');
     //フルスクリーン
     map.addControl(new mapboxgl.FullscreenControl());
     //コンパス
     map.addControl(new mapboxgl.NavigationControl());
+
+    class HelloWorldControl2 {
+      onAdd(map) {
+        this.map = map;
+    
+        const homeButton = document.createElement('button');
+        homeButton.innerHTML = '<img src="https://img.icons8.com/material-rounded/18/000000/rotate-right.png"/>';
+        homeButton.addEventListener('click', (e) => {
+          map.setBearing(i -= 20);
+        });
+    
+        this.container = document.createElement('div');
+        this.container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+        this.container.appendChild(homeButton);
+    
+        return this.container;
+      }
+    
+      onRemove() {
+        this.container.parentNode.removeChild(this.container);
+        this.map = undefined;
+      }
+    }
+    
+    map.addControl(new HelloWorldControl2(), 'top-right');
+
+
+    class HelloWorldControl3 {
+      onAdd(map) {
+        this.map = map;
+    
+        const homeButton = document.createElement('button');
+        homeButton.innerHTML = '<img src="https://img.icons8.com/material-sharp/18/000000/rotate-left.png"/>';
+        homeButton.addEventListener('click', (e) => {
+          map.setBearing(i += 20);
+        });
+    
+        this.container = document.createElement('div');
+        this.container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+        this.container.appendChild(homeButton);
+    
+        return this.container;
+      }
+    
+      onRemove() {
+        this.container.parentNode.removeChild(this.container);
+        this.map = undefined;
+      }
+    }
+    
+    map.addControl(new HelloWorldControl3(), 'top-right');
+
     //2d3d
     map.addControl(new PitchToggle({ minpitchzoom: 0, }),);
+
+// カスタムコントロール(マーカー削除)
+class HelloWorldControl {
+  onAdd(map) {
+    this.map = map;
+
+    const homeButton = document.createElement('button');
+    homeButton.innerHTML = '<img src="https://img.icons8.com/ios-filled/18/000000/marker-off.png"/>';
+    homeButton.addEventListener('click', (e) => {
+      marker.remove();
+      coordinates2.innerHTML = ""
+    });
+
+    this.container = document.createElement('div');
+    this.container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+    this.container.appendChild(homeButton);
+
+    return this.container;
+  }
+
+  onRemove() {
+    this.container.parentNode.removeChild(this.container);
+    this.map = undefined;
+  }
+}
+
+map.addControl(new HelloWorldControl(), 'top-right');
+
+
     // 現在地
     map.addControl(
         new mapboxgl.GeolocateControl({
@@ -1309,7 +1605,7 @@ class PitchToggle {
             showUserHeading: true,
         })
     );
-  
+
 
 
 //ローカル検索
@@ -1625,21 +1921,90 @@ class PitchToggle {
     }
 
 // Add the control to the map.
-
 const geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
   localGeocoder: forwardGeocoder,
   zoom: 17,
-  placeholder: '場所検索',
+  placeholder: 'アカデミー周辺',
+  collapsed: true,
+  reverseGeocode: true,
+  limit: 5,
   mapboxgl: mapboxgl
 });
-
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
+const mq = window.matchMedia( "(min-width: 768px)" );
+    //マーカーの追加
+    var marker = new mapboxgl.Marker({
+      draggable: true
+    });
+      map.on('contextmenu', function(e) {
+        if (mq.matches) {
+          // ビューポートの幅が 768 ピクセル以下の場合、右クリック(長押しタップ)
+  
+        } else {
+        var coordinates = e.lngLat;
+        coordinates2.style.display = 'block';
+          map.flyTo({
+            center: coordinates
+            });
+            marker.setLngLat(coordinates).addTo(map);
+          }
 
-// //スケール
-// map.addControl(new mapboxgl.ScaleControl({
-//   maxWidth: 200,
-//   unit: 'metric'
-//   }), 'top-left');
+          lng = coordinates.lng;
+        lat = coordinates.lat;
 
+        getElevation();
+      });
+
+      async function getElevation() {
+        // Construct the API request
+        const query = await fetch(
+          `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${lng},${lat}.json?layers=contour&limit=50&access_token=${mapboxgl.accessToken}`,
+          { method: 'GET' }
+        );
+        if (query.status !== 200) return;
+        const data = await query.json();
+        // Get all the returned features
+        const allFeatures = data.features;
+        console.log(allFeatures);
+        // For each returned feature, add elevation data to the elevations array
+        const elevations = allFeatures.map((feature) => feature.properties.ele);
+        console.log(elevations);
+        // In the elevations array, find the largest value
+        const highestElevation = Math.max(...elevations);
+
+        coordinates2.innerHTML = `緯度： ${lat}<br />経度： ${lng}<br />標高： ${highestElevation} メートル`; 
+      }
+
+      map.on('dblclick', function(e) {
+        if (mq.matches) {
+          // ビューポートの幅が 768 ピクセル以上の場合(ダブルクリック)
+          var coordinates = e.lngLat;
+        coordinates2.style.display = 'block';
+          map.flyTo({
+            center: coordinates
+            });
+            marker.setLngLat(coordinates).addTo(map);
+          }
+
+         else {}
+         lng = coordinates.lng;
+         lat = coordinates.lat;
+ 
+         getElevation();
+      });
+
+    
+
+      //マーカーを動かしたときに実行
+      marker.on('dragend', onDragEnd);
+    function onDragEnd() {
+        const lngLat = marker.getLngLat();
+        coordinates2.style.display = 'block';
+
+        lng = lngLat.lng;
+        lat = lngLat.lat;
+
+        getElevation();
+    };
