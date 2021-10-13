@@ -68,7 +68,7 @@ label {
   left: 1.5rem;
   right: 1.5rem;
   bottom: 5.5rem;
-  top: 50%;
+  top: 55%;
   height: auto;
   overflow: hidden;
   opacity: 0;
@@ -85,7 +85,7 @@ label {
     left: calc(50% - 16rem);
     right: calc(50% - 16rem);
     top: 7rem;
-    bottom: 50%;
+    bottom: 55%;
     transform: translate3d(0, -1.5rem, 0) scaleY(0.75);
     transform-origin: 0 0;
   }
@@ -298,7 +298,6 @@ body {
 }
 
 /*========= レイアウトのためのCSS ===============*/
-
 #container {
   width: 100%;
   height: 100vh;
@@ -309,7 +308,7 @@ body {
 }
 
 /* スライダー */
-.map-overlay {
+.map-overlay1 {
   position: absolute;
   width: 95%;
   top: 0;
@@ -317,19 +316,19 @@ body {
   padding: 10px;
 }
 
-.map-overlay .map-overlay-inner {
+.map-overlay1 .map-overlay-inner1 {
   background-color: #fff;
   border-radius: 3px;
   padding: 10px;
   margin-bottom: 10px;
 }
 
-.map-overlay label {
+.map-overlay1 label {
   display: block;
   margin: 0 0 10px;
 }
 
-.map-overlay input {
+.map-overlay1 input {
   background-color: transparent;
   display: inline-block;
   width: 100%;
@@ -338,9 +337,49 @@ body {
   cursor: ew-resize;
 }
 
+/* 色の変更ツール */
+
+
+.map-overlay2 .map-overlay-inner2 {
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.map-overlay-inner2 fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 10px;
+}
+
+.map-overlay-inner2 fieldset:last-child {
+  margin: 0;
+}
+
+.map-overlay-inner2 select {
+  width: 100%;
+}
+
+.map-overlay-inner2 button {
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.map-overlay-inner button:focus {
+  outline: none;
+}
+
+.map-overlay-inner button:hover {
+  box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 検索 */
 .geocoder {
   position: absolute;
-  z-index: 2;
   width: 50%;
   height: 20px;
   left: 10px;
@@ -348,4 +387,108 @@ body {
 }
 .mapboxgl-ctrl-geocoder {
   min-width: 100%;
+}
+/* ポップアップ */
+.mapboxgl-popup {
+  width: 70%;
+  max-width: 200px;
+  font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.mapboxgl-popup-close-button {
+
+}
+
+/* ポップアップのテーブルのボックス */
+.popopbox {
+  max-width: 400px;
+  max-height: 170px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#features {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 95%;
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* テーブル */
+div.clskunx8e8u{
+  margin:5px;
+}
+
+div.clskunx8e8u div.tbl table{
+  width:100%;
+}
+
+div.clskunx8e8u div.tbl tr th.emph,div.clskunx8e8u div.tbl tr td.emph{
+  -webkit-box-shadow:inset #cccccc 0 0 0 1px;
+  box-shadow:inset #cccccc 0 0 0 1px;
+}
+
+div.clskunx8e8u div.tbl th.nowrap,div.clskunx8e8u div.tbl td.nowrap{
+  white-space:nowrap;
+}
+
+div.clskunx8e8u{
+  padding:0px;}
+
+div.clskunx8e8u div.tbl th,div.clskunx8e8u div.tbl td{
+  border:none;
+  border-bottom:1px dashed #753d00;
+  padding:5px;
+}
+
+div.clskunx8e8u th, div.clskunx8e8u td {
+  transparen
+}
+
+div.clskunx8e8u div.tbl table{
+  border-collapse:collapse;
+  border-spacing:0;table-layout:fixed;
+}
+
+div.clskunx8e8u div.tbl,div.clskunx8e8u div.tbl a{
+  color:#000000;
+}
+
+div.clskunx8e8u div.tbl{
+  font-size:12px;
+}
+
+div.clskunx8e8u div.tbl th,div.clskunx8e8u div.tbl th a{
+  color:#000000;
+}
+
+div.clskunx8e8u div.tbl th{
+  font-weight:bold;
+  text-align:center;
+}
+
+div.clskunx8e8u div.tbl tr th.emph,div.clskunx8e8u div.tbl tr td.emph{
+  -webkit-box-shadow:inset #cccccc 0 0 0 1px;
+  box-shadow:inset #cccccc 0 0 0 1px;
+}
+
+div.clskunx8e8u{
+  background-color:transparent;}
+
+/* 緯度経度標高情報ボックス */
+  .coordinates2 {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    padding: 5px 10px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 18px;
+    border-radius: 3px;
+    display: none;
 }
